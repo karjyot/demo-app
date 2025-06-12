@@ -16,20 +16,13 @@
   <script>
     // ❌ Blocked in Safari
     document.getElementById('blocked-btn').addEventListener('click', function () {
-      fetch('https://httpstat.us/200?sleep=10000')
-        .then(response => response.json())
+      fetch('https://httpstat.us/200?sleep=5000')
+       
         .then(data => {
-    //       const link = document.getElementById("redirectLink");
-    // link.href = data.url;
-    // link.click(); 
-          //window.open('https://www.example.com', '_blank'); // ❌ Safari blocks this
-          const link = document.createElement('a');
-        link.href = 'https://www.example.com'; // or use data.url
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click(); // ⚠️ May be blocked on iOS
-        document.body.removeChild(link);
+            
+       const link = document.getElementById("redirectLink");
+    link.href = data.url;
+    link.click(); 
         });
     });
 
