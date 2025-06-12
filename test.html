@@ -11,13 +11,17 @@
 
   <h3>✅ Allowed Version (Safari-Compatible)</h3>
   <button id="allowed-btn">Open After API Call (Workaround)</button>
-
+<a id="redirectLink" href="" target="_blank" style="display:none;">Go</a>
+<button id="goBtn">Open Page</button>
   <script>
     // ❌ Blocked in Safari
     document.getElementById('blocked-btn').addEventListener('click', function () {
       fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then(response => response.json())
         .then(data => {
+          const link = document.getElementById("redirectLink");
+    link.href = data.url;
+    link.click(); 
           //window.open('https://www.example.com', '_blank'); // ❌ Safari blocks this
         });
     });
