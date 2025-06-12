@@ -1,28 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>API Call and Redirect</title>
+  <title>Safari Popup Block vs Workaround</title>
+</head>
+<body>
+  <h2>🧪 Safari Popup Behavior Test</h2>
+
+  <h3>❌ Blocked Version (Safari will block this)</h3>
+  <button id="blocked-btn">Open After API Call (Blocked)</button>
+
+  <h3>✅ Allowed Version (Safari-Compatible)</h3>
+  <button id="allowed-btn">Open After API Call (Workaround)</button>
+
   <script>
-    function callApiAndRedirect() {
-      // Sample API call (using a public placeholder API)
+    // ❌ Blocked in Safari
+    document.getElementById('blocked-btn').addEventListener('click', function () {
       fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then(response => response.json())
         .then(data => {
-          console.log('API Response:', data);
-          // Redirect to Google after API call completes
-          window.location.href = 'https://www.google.com';
-        })
-        .catch(error => {
-          console.error('API Error:', error);
-          // Still redirect even if the API call fails
-          window.location.href = 'https://www.google.com';
+          window.open('https://www.example.com', '_blank'); // ❌ Safari blocks this
         });
-    }
+    });
+
+    // ✅ Allowed in Safari
+    document.getElementById('allowed-btn').addEventListener('click', function () {
+      const newWindow = window.open('', '_blank'); // 👈 Open immediately on click
+      fetch('https://jsonplaceholder.typicode.com/posts/1')
+        .then(response => response.json())
+        .then(data => {
+          if (newWindow) {
+            newWindow.location.href = 'https://www.example.com'; // 👈 Set URL later
+          }
+        });
+    });
   </script>
-</head>
-<body>
-  <h1>Sample API Call and Redirect</h1>
-  <button onclick="callApiAndRedirect()">Click Me</button>
 </body>
 </html>
