@@ -24,14 +24,21 @@
 
     // ✅ Allowed in Safari
     document.getElementById('allowed-btn').addEventListener('click', function () {
-      const newWindow = window.open('', '_blank'); // 👈 Open immediately on click
-      newWindow.document.write('Please wiat while we are redirecting')
+      //const newWindow = window.open('', '_blank'); // 👈 Open immediately on click
+      //newWindow.document.write('Please wait while we are redirecting.....')
       fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then(response => response.json())
         .then(data => {
           if (newWindow) {
                    setTimeout(() => {
-                                    newWindow.location.href = 'https://www.example.com'; // 👈 Set URL later
+                     const a= document.createElement('a');
+                     a.href='https://www.example.com';
+                     a.target='_blank';
+                     a.rel ='noopener';
+                     document.body.appendChild(a);
+                     a.click();
+                     document.body.removeChild(a);
+                                  //  newWindow.location.href = 'https://www.example.com'; // 👈 Set URL later
 
                     }, 10000);
           }
