@@ -24,8 +24,17 @@ font-size: 16px;
 
 <script>
 function isIOS() {
-return /iPhone|iPad|iPod/.test(navigator.userAgent);
+const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+// Matches iPhone, iPod, and old iPads
+if (/iPhone|iPad|iPod/i.test(ua)) return true;
+
+// Detect iPads that identify as Mac (iPadOS 13+)
+if (/Macintosh/.test(ua) && 'ontouchend' in document) return true;
+
+return false;
 }
+
 
 async function startProcess() {
 // Simulate async call to break user gesture
