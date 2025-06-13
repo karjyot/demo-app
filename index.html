@@ -29,6 +29,8 @@ return /iPhone|iPad|iPod/.test(navigator.userAgent);
 
 async function startProcess() {
 // Simulate async call to break user gesture
+    alert(isIOS())
+
 await fetch("https://jsonplaceholder.typicode.com/posts/1");
 
 // Try to open a new window
@@ -37,7 +39,6 @@ const newWindow = window.open("https://example.com", "_blank");
 // Heuristic to detect if popup was blocked
 const blocked = !newWindow || typeof newWindow.closed === "undefined";
 console.log(blocked);
-  alert(isIOS())
 if (isIOS() && blocked) {
 document.getElementById("warning").style.display = "block";
 } else if (newWindow) {
