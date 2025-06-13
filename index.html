@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Simulate iOS Popup Block</title>
-  <style>
-    #warning {
-      display: none;
-      color: red;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>iOS Popup Block Warning</title>
+<style>
+#warning {
+display: none;
+color: red;
+font-weight: bold;
+margin-top: 20px;
+}
+button {
+padding: 10px 20px;
+font-size: 16px;
+}
+</style>
 </head>
 <body>
 
-  <h2>Test Popup Block (iOS Only)</h2>
-  <button onclick="startProcess()">Start</button>
-  <div id="warning">⚠️ Popup was blocked! Please enable popups for this site on your iPhone or iPad.</div>
+<h2>Test Popup Block (iOS)</h2>
+<button onclick="startProcess()">Start</button>
+<div id="warning">⚠️ Popup was blocked! Please enable popups for this site on your iPhone or iPad.</div>
 
-  <script>
-    function isIOS() {
-      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
+<script>
+function isIOS() {
+return /iPhone|iPad|iPod/.test(navigator.userAgent);
+}
 
-    async function startProcess() {
-      // Simulate some async work that causes Safari to treat this as not user-initiated
-      await fetch("https://jsonplaceholder.typicode.com/posts/1");
+async function startProcess() {
+// Simulate async call to break user gesture
+await fetch("https://jsonplaceholder.typicode.com/posts/1");
 
-      // Now try to open the popup
-      const newWindow = window.open("https://example.com", "_blank");
+// Try to open a new window
+const newWindow = window.open("https://example.com", "_blank");
 
-      if (isIOS() && !newWindow) {
-        // Popup was blocked
-        document.getElementById("warning").style.display = "block";
-      } else if (newWindow) {
-        newWindow.focus();
-      }
-    }
-  </script>
+// Heuristic to detect if popup was blocked
+const blocked = !newWindow || typeof newWindow.closed === "undefined";
+
+if (isIOS() && blocked) {
+document.getElementById("warning").style.display = "block";
+} else if (newWindow) {
+try {
+newWindow.focus(); // will fail if blocked
+} catch (e) {
+document.getElementById("warning").style.display = "block";
+}
+}
+}
+</script>
 
 </body>
 </html>
