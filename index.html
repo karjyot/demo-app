@@ -36,7 +36,8 @@ const newWindow = window.open("https://example.com", "_blank");
 
 // Heuristic to detect if popup was blocked
 const blocked = !newWindow || typeof newWindow.closed === "undefined";
-
+console.log(blocked);
+  alert(isIOS())
 if (isIOS() && blocked) {
 document.getElementById("warning").style.display = "block";
 } else if (newWindow) {
