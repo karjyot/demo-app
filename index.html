@@ -1,13 +1,47 @@
-<!doctype html>
-<html lang="en" data-beasties-container>
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Frontend</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="demo-app/styles-5INURTSO.css"></head>
+  <meta charset="UTF-8">
+  <title>Simulate iOS Popup Block</title>
+  <style>
+    #warning {
+      display: none;
+      color: red;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+  </style>
+</head>
 <body>
-  <app-root></app-root>
-<script src="demo-app/polyfills-B6TNHZQ6.js" type="module"></script><script src="demo-app/main-P6WSXQ3B.js" type="module"></script></body>
+
+  <h2>Test Popup Block (iOS Only)</h2>
+  <button onclick="startProcess()">Start</button>
+  <div id="warning">⚠️ Popup was blocked! Please enable popups for this site on your iPhone or iPad.</div>
+
+  <script>
+    function isIOS() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    async function startProcess() {
+      // Simulate some async work that causes Safari to treat this as not user-initiated
+      await fetch("https://jsonplaceholder.typicode.com/posts/1");
+
+      // Now try to open the popup
+      const newWindow = window.open("https://example.com", "_blank");
+
+      if (isIOS() && !newWindow) {
+        // Popup was blocked
+        document.getElementById("warning").style.display = "block";
+      } else if (newWindow) {
+        newWindow.focus();
+      }
+    }
+  </script>
+
+</body>
 </html>
