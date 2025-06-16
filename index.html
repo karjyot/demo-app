@@ -21,7 +21,9 @@ font-size: 16px;
 <h2>Test Popup Block (iOS)</h2>
 <button onclick="startProcess()">Start</button>
 <div id="warning">⚠️ Popup was blocked! Please enable popups for this site on your iPhone or iPad.</div>
-
+<div class="vert-bottom-align" message-key="FLEX_POPUPBLCKD_LBL"></div>
+        <span message-key="FLEX_POP_LBL1"></span> 
+        <a href="javascript:void(0)" style="cursor:pointer;" onClick="redirectSSO()"><span  message-key="FLEX_OPEN_LBL3"></span></a><span message-key="FLEX_OPEN_LBL2"></span>
 <script>
 function isIOS() {
 const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -58,6 +60,9 @@ document.getElementById("warning").style.display = "block";
 }
 }
 }
+    function redirectSSO() {
+    window.open("google.com","_target")
+    }
 </script>
 
 </body>
